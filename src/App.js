@@ -6,7 +6,7 @@ import SignUpPage from './pages/SignUpPage';
 import './App.css';
 
 function App() {
-  return ( // Make sure to include the return statement here
+  return ( 
     <Router>
       <div className="App">
         <Header />

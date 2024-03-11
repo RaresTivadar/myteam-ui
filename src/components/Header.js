@@ -1,11 +1,19 @@
 import React from 'react';
 
-function Header() {
+const Header = () => {
+  const headerStyle = {
+    backgroundColor: '#f2e9f3',
+    color: '#5e548e', 
+    textAlign: 'center',
+    padding: '20px 0',
+    fontSize: '24px',
+  };
+
   return (
-    <header>
-      <h1>MyTeam Web App</h1>
+    <header style={headerStyle}>
+      <h1>MyTeam</h1>
     </header>
   );
-}
+};
 
 export default Header;
