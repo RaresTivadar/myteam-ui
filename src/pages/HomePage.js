@@ -1,12 +1,11 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom'; // For navigation to the sign-up page
+import { useNavigate } from 'react-router-dom'; 
 
 const HomePage = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const navigate = useNavigate(); // Hook for navigation
+  const navigate = useNavigate(); 
 
-  // Inline styles for the form and buttons
   const formStyle = {
     display: 'flex',
     flexDirection: 'column',
@@ -28,20 +27,19 @@ const HomePage = () => {
     borderRadius: '5px',
   };
 
-  // Handlers for form actions
   const handleLogin = (e) => {
     e.preventDefault();
     console.log('Logging in with:', username, password);
-    // Implement login logic here
   };
 
   const handleSignUp = () => {
-    navigate('/signup'); // Navigate to the sign-up page
+    navigate('/signup'); 
   };
 
   return (
     <div>
-      <h1>Welcome to MyTeam Web App</h1>
+      <h1>Welcome to MyTeam Web Application</h1>
+      <p>The place to manage your sports team easily</p>
       <form style={formStyle} onSubmit={handleLogin}>
         <input
           style={inputStyle}
