@@ -11,7 +11,7 @@ const Header = () => {
 
   return (
     <header style={headerStyle}>
-      <h1>MyTeam Web App</h1>
+      <h1>MyTeam</h1>
     </header>
   );
 };

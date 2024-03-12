@@ -1,0 +1,37 @@
+.admin-page-container {
+  text-align: center;
+  padding: 20px;
+}
+
+.admin-table {
+  margin: 20px auto;
+  border-collapse: collapse;
+  width: 80%;
+}
+
+.admin-table th, .admin-table td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: left;
+}
+
+.admin-table th {
+  background-color: #5e548e; 
+  color: white;
+}
+
+.admin-table td {
+  background-color: #f2e9f3; 
+}
+
+.admin-table tr:nth-child(even) {
+  background-color: #dbcce6; 
+}
+
+.admin-table tr:hover {
+  background-color: #b8a9c9; 
+}
+
+.admin-table tr {
+  cursor: pointer; 
+}
