@@ -1,8 +1,8 @@
 import React from 'react';
 import { useParams } from 'react-router-dom';
-import './TeamDetails.css'; 
+import './AdminTeamDetails.css'; 
 
-const TeamDetails = () => {
+const AdminTeamDetails = () => {
   const { teamId } = useParams(); 
   
   const teamMembers = [
@@ -12,10 +12,10 @@ const TeamDetails = () => {
   ];
 
   return (
-    <div className="team-details-container">
-      <h1 className="team-details-heading">Team Details: Team {teamId}</h1>
-      <h2 className="team-details-subheading">Team Members</h2>
-      <ul className="team-details-list">
+    <div className="admin-team-details-container">
+      <h1 className="admin-team-details-heading">Team Details: Team {teamId}</h1>
+      <h2 className="admin-team-details-subheading">Team Members</h2>
+      <ul className="admin-team-details-list">
         {teamMembers.map((member) => (
           <li key={member.id}>
             {member.name} - {member.role}
@@ -26,4 +26,4 @@ const TeamDetails = () => {
   );
 };
 
-export default TeamDetails;
+export default AdminTeamDetails;

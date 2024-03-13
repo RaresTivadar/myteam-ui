@@ -12,7 +12,7 @@ const AdminFirstPage = () => {
   ];
 
   const navigateToTeamDetail = (teamId) => {
-    navigate(`/team/${teamId}`);
+    navigate(`/admin/team/${teamId}`);
   };
 
   return (

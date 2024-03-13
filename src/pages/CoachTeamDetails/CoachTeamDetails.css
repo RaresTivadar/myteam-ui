@@ -1,0 +1,15 @@
+.coach-team-details-container {
+    text-align: center;
+    padding: 20px;
+  }
+  
+  .coach-team-details-container h1, .section h2 {
+    color: #5e548e;
+  }
+  
+  .section {
+    margin-top: 20px;
+    padding: 15px;
+    background-color: #f2e9f3;
+    border-radius: 8px;
+  }
