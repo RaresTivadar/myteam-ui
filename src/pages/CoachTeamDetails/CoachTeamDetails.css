@@ -1,15 +1,29 @@
-.coach-team-details-container {
-    text-align: center;
-    padding: 20px;
-  }
-  
-  .coach-team-details-container h1, .section h2 {
-    color: #5e548e;
-  }
-  
-  .section {
-    margin-top: 20px;
-    padding: 15px;
-    background-color: #f2e9f3;
-    border-radius: 8px;
-  }
+/* CoachAnnouncementPage.css */
+.announcements-container {
+  padding: 20px;
+}
+
+.announcement {
+  background-color: #f4f4f4;
+  margin: 10px 0;
+  padding: 10px;
+  border-radius: 5px;
+}
+
+.announcement p {
+  margin: 0;
+}
+
+.announcement button {
+  margin-top: 10px;
+  padding: 5px 10px;
+  background-color: #dc3545;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.announcement button:hover {
+  background-color: #c82333;
+}
