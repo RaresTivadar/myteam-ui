@@ -1,7 +1,7 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Header from './components/Header';
-import HomePage from './pages/HomePage';
+import HomePage from './pages/Homepage/HomePage';
 import SignUpPage from './pages/SignUpPage';
 import AdminFirstPage from './pages/AdminFirstPage/AdminFirstPage';
 import AdminTeamDetails from './pages/AdminTeamDetails/AdminTeamDetails'; 
@@ -9,6 +9,7 @@ import CoachDashboard from './pages/CoachDashboard/CoachDashboard';
 import TeamCreation from './pages/TeamCreation/TeamCreation';
 import CoachTeamDetails from './pages/CoachTeamDetails/CoachTeamDetails'; 
 import CoachAnnouncementPage from './pages/CoachAnnouncementPage/CoachAnnouncementPage';
+import CoachCalendarPage from './pages/CoachCalendarPage/CoachCalendarPage'; 
 import './App.css';
 
 function App() {
@@ -25,6 +26,7 @@ function App() {
           <Route path="/create-team" element={<TeamCreation />} />
           <Route path="/coach/team/:teamId" element={<CoachTeamDetails />} /> 
           <Route path="/coach/team/:teamId/announcements" element={<CoachAnnouncementPage />} />
+          <Route path="/coach/team/:teamId/calendar" element={<CoachCalendarPage />} />
         </Routes>
       </div>
     </Router>

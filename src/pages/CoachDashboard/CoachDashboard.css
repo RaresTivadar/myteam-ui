@@ -1,43 +1,41 @@
 .coach-dashboard-container {
-    text-align: center;
-    padding: 20px;
-  }
-  
-  .coach-dashboard-container h1, .teams-list h2 {
-    color: #5e548e;
-  }
-  
-  .teams-list ul {
-    list-style: none;
-    padding: 0;
-  }
-  
-  .teams-list li {
-    cursor: pointer;
-    background-color: #f2e9f3;
-    margin: 10px 0;
-    padding: 10px;
-    border-radius: 5px;
-    transition: background-color 0.3s ease;
-  }
-  
-  .teams-list li:hover {
-    background-color: #e1d4e6;
-  }
-  
-  button {
-    background-color: #5e548e;
-    color: white;
-    padding: 10px 20px;
-    margin: 20px 0;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 16px;
-    transition: background-color 0.3s ease;
-  }
-  
-  button:hover {
-    background-color: #4c4177;
-  }
-  
+  text-align: center;
+  padding: 20px;
+}
+
+button {
+  background-color: #4CAF50; /* Green background */
+  color: white;
+  padding: 10px 15px;
+  margin: 10px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: #45a049; /* Darker shade of green */
+}
+
+.teams-list {
+  margin-top: 20px;
+}
+
+.teams-list ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.teams-list li {
+  cursor: pointer;
+  padding: 8px;
+  margin: 5px 0;
+  background-color: #f9f9f9;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+}
+
+.teams-list li:hover {
+  background-color: #f0f0f0;
+}
