@@ -11,7 +11,7 @@ const Header = () => {
 
   return (
     <header style={headerStyle}>
-      <h1>MyTeam</h1>
+      <h3>MyTeam</h3>
     </header>
   );
 };

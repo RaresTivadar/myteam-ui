@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './CoachDashboard.css';
 
 const CoachDashboard = () => {
   const navigate = useNavigate();
+  const [activeTab, setActiveTab] = useState('teams'); // Default to the 'teams' tab
 
   const teams = [
     { id: 1, name: 'Team Alpha' },
@@ -14,24 +15,36 @@ const CoachDashboard = () => {
     navigate(`/coach/team/${teamId}`);
   };
 
-  const handleCreateTeam = () => {
-    navigate('/create-team'); 
+  const renderActiveTabContent = () => {
+    switch (activeTab) {
+      case 'profile':
+        return <div className="profile-content">Profile content...</div>;
+      case 'teams':
+        return (
+          <div className="teams-content">
+            <h2 className="section-title">My Teams</h2>
+            <ul className="teams-list">
+              {teams.map((team) => (
+                <li key={team.id} onClick={() => handleTeamClick(team.id)}>
+                  {team.name}
+                </li>
+              ))}
+            </ul>
+            <button className="create-team-btn" onClick={() => navigate('/create-team')}>Create New Team</button>
+          </div>
+        );
+      default:
+        return <div>Select a tab...</div>;
+    }
   };
 
   return (
     <div className="coach-dashboard-container">
-      <h1>Coach Dashboard</h1>
-      <button onClick={handleCreateTeam}>Create New Team</button>
-      <div className="teams-list">
-        <h2>Your Teams</h2>
-        <ul>
-          {teams.map((team) => (
-            <li key={team.id} onClick={() => handleTeamClick(team.id)}>
-              {team.name}
-            </li>
-          ))}
-        </ul>
-      </div>
+      <nav className="dashboard-nav">
+        <button onClick={() => setActiveTab('profile')} className={activeTab === 'profile' ? 'active' : ''}>My Profile</button>
+        <button onClick={() => setActiveTab('teams')} className={activeTab === 'teams' ? 'active' : ''}>Teams</button>
+      </nav>
+      {renderActiveTabContent()}
     </div>
   );
 };

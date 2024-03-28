@@ -21,11 +21,19 @@
 }
 
 .calendar-nav button {
-  background: none;
+  background-color: #5e548e; 
+  color: white;
+  padding: 5px 10px;
   border: none;
-  font-size: 20px;
+  border-radius: 4px;
   cursor: pointer;
+  transition: background-color 0.3s;
 }
+
+.calendar-nav button:hover {
+  background-color: #514C7F; 
+}
+
 
 .days-of-week {
   display: flex;
