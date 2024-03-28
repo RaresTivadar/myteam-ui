@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import './TeamCreation.css'; 
+import './AdminTeamCreation.css'; 
 
-const TeamCreation = () => {
+const AdminTeamCreation = () => {
   const navigate = useNavigate();
   const [teamName, setTeamName] = useState('');
   const [accessCode, setAccessCode] = useState('');
@@ -40,4 +40,4 @@ const TeamCreation = () => {
   );
 };
 
-export default TeamCreation;
+export default AdminTeamCreation;

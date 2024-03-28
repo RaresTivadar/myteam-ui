@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { format, addMonths, subMonths, startOfMonth, endOfMonth, startOfWeek, endOfWeek, eachDayOfInterval, isSameMonth, isSameDay } from 'date-fns';
+import { format, addMonths, subMonths, startOfMonth, endOfMonth, startOfWeek, endOfWeek, eachDayOfInterval, isSameMonth, isSameDay, isBefore, startOfDay, addWeeks } from 'date-fns';
 import './CoachCalendarPage.css';
 
 const CoachCalendarPage = () => {
@@ -9,6 +9,8 @@ const CoachCalendarPage = () => {
   const [eventDescription, setEventDescription] = useState('');
   const [eventDate, setEventDate] = useState(format(new Date(), 'yyyy-MM-dd'));
   const [isRecurring, setIsRecurring] = useState(false);
+  const [recurrenceWeeks, setRecurrenceWeeks] = useState(1);
+
 
   const handlePrevMonth = () => {
     setCurrentDate(subMonths(currentDate, 1));
@@ -19,19 +21,47 @@ const CoachCalendarPage = () => {
   };
 
   const handleAddEvent = () => {
-    const newEvent = {
-      id: events.length + 1,
-      name: eventName,
-      description: eventDescription,
-      date: eventDate,
-      recurring: isRecurring
-    };
-    setEvents([...events, newEvent]);
+    const startDate = new Date(eventDate);
+    if (isBefore(startDate, startOfDay(new Date()))) {
+      alert("Cannot add events in the past.");
+      return;
+    }
+      if (isRecurring) {
+      for (let i = 0; i < recurrenceWeeks; i++) {
+        const futureEventDate = addWeeks(startDate, i);
+        if (!isBefore(futureEventDate, startOfDay(new Date())) || isSameDay(futureEventDate, new Date())) {
+          const newEvent = {
+            id: Date.now() + i,
+            name: eventName,
+            description: eventDescription,
+            date: format(futureEventDate, 'yyyy-MM-dd'),
+            recurring: isRecurring
+          };
+          setEvents(events => [...events, newEvent]);
+        }
+      }
+    } else {
+      const newEvent = {
+        id: Date.now(),
+        name: eventName,
+        description: eventDescription,
+        date: eventDate,
+        recurring: isRecurring
+      };
+      setEvents(events => [...events, newEvent]);
+    }
+      resetForm();
+  };
+  
+  const resetForm = () => {
     setEventName('');
     setEventDescription('');
-    setEventDate(format(new Date(), 'yyyy-MM-dd'));
+    setEventDate(format(new Date(), 'yyyy-MM-dd')); 
     setIsRecurring(false);
+    setRecurrenceWeeks(1);
   };
+  
+  
 
   const findEventsForDay = (day) => {
     return events.filter(event => {
@@ -98,10 +128,23 @@ const CoachCalendarPage = () => {
           <input
             type="checkbox"
             checked={isRecurring}
-            onChange={e => setIsRecurring(e.target.checked)}
+            onChange={(e) => setIsRecurring(e.target.checked)}
           />
           Recurring event
         </label>
+        {isRecurring && (
+          <div>
+            <label htmlFor="recurrenceWeeks">Number of Weeks:</label>
+            <input
+              id="recurrenceWeeks"
+              type="number"
+              min="1"
+              value={recurrenceWeeks}
+              onChange={(e) => setRecurrenceWeeks(Number(e.target.value))}
+            />
+          </div>
+        )}
+
         <button onClick={handleAddEvent}>Add Event</button>
       </div>
     </div>
