@@ -4,7 +4,7 @@ import './CoachDashboard.css';
 
 const CoachDashboard = () => {
   const navigate = useNavigate();
-  const [activeTab, setActiveTab] = useState('teams'); // Default to the 'teams' tab
+  const [activeTab, setActiveTab] = useState('profile');
 
   const teams = [
     { id: 1, name: 'Team Alpha' },

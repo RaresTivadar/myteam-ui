@@ -1,5 +1,8 @@
 import React, { useState } from 'react';
 import './PlayerDashboard.css';
+import CalendarPage from '../CalendarPage/CalendarPage';
+import PlayerAttendancePage from '../PlayerAttendancePage/PlayerAttendancePage';
+
 
 const PlayerDashboard = () => {
   const [activeTab, setActiveTab] = useState('profile'); 
@@ -15,7 +18,9 @@ const PlayerDashboard = () => {
       case 'matches':
         return <div>Next matches content...</div>;
       case 'calendar':
-        return <div>Calendar content...</div>;
+        return <CalendarPage />;
+      case 'attendance':
+        return <PlayerAttendancePage />;
       case 'sessions':
         return <div>Session recording content...</div>;
       default:
@@ -31,6 +36,7 @@ const PlayerDashboard = () => {
         <button onClick={() => setActiveTab('stats')} className={activeTab === 'stats' ? 'active' : ''}>Player Stats</button>
         <button onClick={() => setActiveTab('matches')} className={activeTab === 'matches' ? 'active' : ''}>Next Matches</button>
         <button onClick={() => setActiveTab('calendar')} className={activeTab === 'calendar' ? 'active' : ''}>Calendar</button>
+        <button onClick={() => setActiveTab('attendance')} className={activeTab === 'attendance' ? 'active' : ''}>Attendance</button>
         <button onClick={() => setActiveTab('sessions')} className={activeTab === 'sessions' ? 'active' : ''}>Record Sessions</button>
       </nav>
       <div className="tab-content">

@@ -2,7 +2,8 @@ import React, { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import './CoachTeamDetails.css';
 import CoachAnnouncementPage from '../CoachAnnouncementPage/CoachAnnouncementPage';
-import CoachCalendarPage from '../CoachCalendarPage/CoachCalendarPage';
+import CalendarPage from '../CalendarPage/CalendarPage';
+import CoachAttendancePage from '../CoachAttendancePage/CoachAttendancePage';
 
 const CoachTeamDetails = () => {
   const { teamId } = useParams();
@@ -13,13 +14,13 @@ const CoachTeamDetails = () => {
       case 'announcements':
         return <CoachAnnouncementPage />;
       case 'calendar':
-        return <CoachCalendarPage />;
+        return <CalendarPage />;
       case 'rankings':
         return <div>Rankings content for Team {teamId}...</div>;
       case 'nextmatches':
         return <div>Next Matches content for Team {teamId}...</div>;
       case 'attendance':
-        return <div>Attendance tracking for Team {teamId}...</div>;
+        return <CoachAttendancePage />;
       case 'playerstats':
         return <div>Player Stats content for Team {teamId}...</div>;
       case 'messages':
