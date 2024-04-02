@@ -9,7 +9,7 @@ import CoachDashboard from './pages/CoachDashboard/CoachDashboard';
 import AdminTeamCreation from './pages/AdminTeamCreation/AdminTeamCreation';
 import CoachTeamDetails from './pages/CoachTeamDetails/CoachTeamDetails'; 
 import CoachAnnouncementPage from './pages/CoachAnnouncementPage/CoachAnnouncementPage';
-import CoachCalendarPage from './pages/CoachCalendarPage/CoachCalendarPage'; 
+import CalendarPage from './pages/CalendarPage/CalendarPage'; 
 import PlayerDashboard from './pages/PlayerDashboard/PlayerDashboard';
 import './App.css';
 
@@ -27,7 +27,7 @@ function App() {
           <Route path="/create-team" element={<AdminTeamCreation />} />
           <Route path="/coach/team/:teamId" element={<CoachTeamDetails />} /> 
           <Route path="/coach/team/:teamId/announcements" element={<CoachAnnouncementPage />} />
-          <Route path="/coach/team/:teamId/calendar" element={<CoachCalendarPage />} />
+          <Route path="/coach/team/:teamId/calendar" element={<CalendarPage />} />
           <Route path="/player" element={<PlayerDashboard />} />
         </Routes>
       </div>

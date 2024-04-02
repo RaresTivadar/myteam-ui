@@ -1,0 +1,36 @@
+.attendance-container {
+    padding: 20px;
+    text-align: center;
+}
+
+.attendance-table {
+    margin: 20px auto;
+    width: 90%;
+    max-width: 800px; 
+}
+
+.table-header, .table-row {
+    display: flex;
+    justify-content: space-around; 
+    padding: 10px;
+    border-bottom: 2px solid #5e548e;
+}
+
+.table-header {
+    background-color: #5e548e;
+    color: white;
+}
+
+.header-item, .row-item {
+    flex: 1;
+    display: flex;
+    justify-content: center; 
+    align-items: center; 
+    text-align: center;
+}
+
+@media (max-width: 600px) {
+    .row-item, .header-item {
+        font-size: 14px;
+    }
+}
