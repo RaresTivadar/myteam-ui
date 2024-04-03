@@ -1,0 +1,126 @@
+.calendar-container {
+    max-width: 800px;
+    margin: 40px auto;
+    padding: 20px;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 0 5px rgba(0,0,0,0.1);
+    text-align: center;
+  }
+  
+  .calendar-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+  
+  .calendar-nav h2 {
+    font-size: 24px;
+    text-transform: uppercase;
+  }
+  
+  .calendar-nav button {
+    background-color: #5e548e; 
+    color: white;
+    padding: 5px 10px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  .calendar-nav button:hover {
+    background-color: #514C7F; 
+  }
+  
+  
+  .days-of-week {
+    display: flex;
+    background-color: #5e548e;
+    color: white;
+  }
+  
+  .day-name {
+    flex: 1;
+    padding: 10px 0;
+    text-align: center;
+  }
+  
+  .calendar-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 5px;
+  }
+  
+  .calendar-day {
+    min-height: 100px;
+    background: #f9f9f9;
+    border: 1px solid #ddd;
+    position: relative;
+  }
+  
+  .calendar-day .number {
+    position: absolute;
+    top: 5px;
+    left: 5px;
+    background-color: #f0f0f0;
+    border-radius: 50%;
+    width: 25px;
+    height: 25px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .calendar-day .events {
+    margin-top: 30px;
+  }
+  
+  .calendar-day .event {
+    background-color: #e0e0e0;
+    border-radius: 4px;
+    padding: 5px;
+    margin-top: 5px;
+    cursor: pointer;
+  }
+  
+  .calendar-day.disabled .number {
+    color: #ccc;
+  }
+  
+  .event-form {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .event-form input[type="text"],
+  .event-form input[type="date"],
+  .event-form textarea {
+    width: 80%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  
+  .event-form label {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+  
+  .event-form input[type="checkbox"] {
+    margin-right: 5px;
+  }
+  
+  .event-form button {
+    padding: 10px 20px;
+    background-color: #5e548e;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }

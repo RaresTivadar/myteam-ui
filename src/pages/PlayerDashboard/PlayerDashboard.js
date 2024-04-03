@@ -1,7 +1,11 @@
 import React, { useState } from 'react';
 import './PlayerDashboard.css';
-import CalendarPage from '../CalendarPage/CalendarPage';
+import PlayerCalendarPage from '../PlayerCalendarPage/PlayerCalendarPage';
 import PlayerAttendancePage from '../PlayerAttendancePage/PlayerAttendancePage';
+import PlayerStatisticsPage from '../PlayerStatisticsPage/PlayerStatisticsPage';
+import RankingsPage from '../RankingsPage/RankingsPage';
+import PlayerNextMatchesPage from '../PlayerNextMatchesPage/PlayerNextMatchesPage';
+import PlayerAnnouncementPage from '../PlayerAnnouncementPage/PlayerAnnouncementPage';
 
 
 const PlayerDashboard = () => {
@@ -11,14 +15,16 @@ const PlayerDashboard = () => {
     switch (activeTab) {
       case 'profile':
         return <div className="profile-section">Profile content...</div>;
+      case 'announcements':
+        return <PlayerAnnouncementPage />;
       case 'rankings':
-        return <div>Rankings content...</div>;
+        return <RankingsPage />;
       case 'stats':
-        return <div>Player stats content...</div>;
+        return <PlayerStatisticsPage />;
       case 'matches':
-        return <div>Next matches content...</div>;
+        return <PlayerNextMatchesPage />;
       case 'calendar':
-        return <CalendarPage />;
+        return <PlayerCalendarPage />;
       case 'attendance':
         return <PlayerAttendancePage />;
       case 'sessions':
@@ -32,6 +38,7 @@ const PlayerDashboard = () => {
     <div className="player-dashboard">
       <nav className="dashboard-nav">
         <button onClick={() => setActiveTab('profile')} className={activeTab === 'profile' ? 'active' : ''}>My Profile</button>
+        <button onClick={() => setActiveTab('announcements')} className={activeTab === 'announcements' ? 'active' : ''}>Announcements</button>
         <button onClick={() => setActiveTab('rankings')} className={activeTab === 'rankings' ? 'active' : ''}>Rankings</button>
         <button onClick={() => setActiveTab('stats')} className={activeTab === 'stats' ? 'active' : ''}>Player Stats</button>
         <button onClick={() => setActiveTab('matches')} className={activeTab === 'matches' ? 'active' : ''}>Next Matches</button>

@@ -1,0 +1,29 @@
+.matches-container {
+    padding: 20px;
+  }
+  
+  .matches-list {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .match-item {
+    cursor: pointer;
+    margin-bottom: 10px;
+    padding: 10px;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+  }
+  
+  .match-item:hover {
+    background-color: #f0f0f0;
+  }
+  
+  .selected-match-details {
+    margin-top: 20px;
+    padding: 10px;
+    background-color: #f9f9f9;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  }
+  

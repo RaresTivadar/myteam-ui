@@ -1,0 +1,35 @@
+.stats-container {
+    padding: 20px;
+    text-align: center;
+}
+
+.stats-table {
+    margin: 20px auto;
+    width: 90%;
+    border-collapse: collapse;
+}
+
+.stats-table th, .stats-table td {
+    border: 1px solid #5e548e;
+    padding: 8px;
+    text-align: left;
+}
+
+.stats-table th {
+    background-color: #5e548e;
+    color: white;
+}
+
+.stats-table td {
+    background-color: #f9f9f9;
+}
+
+.stats-table tr:nth-child(even) td {
+    background-color: #e9e4f0;
+}
+
+@media (max-width: 768px) {
+    .stats-table {
+        width: 100%;
+    }
+}

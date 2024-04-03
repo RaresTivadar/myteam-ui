@@ -1,0 +1,23 @@
+.player-stats-container {
+    padding: 20px;
+    text-align: center;
+}
+
+.stats-info {
+    background-color: #f9f9f9;
+    border: 2px solid #5e548e;
+    border-radius: 8px;
+    margin: 20px auto;
+    padding: 20px;
+    width: 90%;
+    max-width: 500px;
+}
+
+.stats-info p {
+    font-size: 18px;
+    line-height: 1.6;
+}
+
+.stats-info strong {
+    color: #5e548e;
+}
