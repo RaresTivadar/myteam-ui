@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { format, addMonths, subMonths, startOfMonth, endOfMonth, startOfWeek, endOfWeek, eachDayOfInterval, isSameMonth, isSameDay, isBefore, startOfDay, addWeeks } from 'date-fns';
-import './CalendarPage.css';
+import './CoachCalendarPage.css';
 
-const CalendarPage = () => {
+const CoachCalendarPage = () => {
   const [currentDate, setCurrentDate] = useState(new Date());
   const [events, setEvents] = useState([]);
   const [eventName, setEventName] = useState('');
@@ -150,5 +150,5 @@ const CalendarPage = () => {
     </div>
   );
 };
-
-export default CalendarPage;
+ 
+export default CoachCalendarPage;

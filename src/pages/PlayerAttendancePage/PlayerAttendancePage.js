@@ -2,14 +2,12 @@ import React from 'react';
 import './PlayerAttendancePage.css';
 
 const PlayerAttendance = () => {
-    // Assuming the attendance data for the logged-in player
     const playerAttendance = {
         name: "Your Attendance",
         trainingAttendance: ["Yes", "No", "Yes", "Yes"],
         matchAttendance: ["Yes", "Yes", "No"],
     };
 
-    // Calculate totals
     const trainingTotal = `${playerAttendance.trainingAttendance.filter(a => a === "Yes").length}/${playerAttendance.trainingAttendance.length}`;
     const matchTotal = `${playerAttendance.matchAttendance.filter(a => a === "Yes").length}/${playerAttendance.matchAttendance.length}`;
 
