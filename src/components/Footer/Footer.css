@@ -1,0 +1,40 @@
+.footer-container {
+    background-color: #5e548e;
+    color: white;
+    padding: 20px 0;
+    position: relative;
+    bottom: 0;
+    width: 100%;
+  }
+  
+  .footer-content {
+    display: flex;
+    justify-content: space-around;
+    margin: 0 auto;
+    padding: 0 20px;
+  }
+  
+  .footer-section h4 {
+    margin-bottom: 20px;
+  }
+  
+  .footer-section p, .footer-section ul {
+    margin: 5px 0;
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  .footer-section a {
+    color: white;
+    text-decoration: none;
+  }
+  
+  .footer-bottom {
+    text-align: center;
+    margin-top: 10px;
+  }
+  
+  .footer-bottom p {
+    margin: 0;
+  }
+  
