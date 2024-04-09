@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './CoachDashboard.css';
+import MyProfilePage from '../MyProfilePage/MyProfilePage';
 
 const CoachDashboard = () => {
   const navigate = useNavigate();
@@ -18,7 +19,7 @@ const CoachDashboard = () => {
   const renderActiveTabContent = () => {
     switch (activeTab) {
       case 'profile':
-        return <div className="profile-content">Profile content...</div>;
+        return <MyProfilePage />;
       case 'teams':
         return (
           <div className="teams-content">

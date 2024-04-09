@@ -6,6 +6,8 @@ import PlayerStatisticsPage from '../PlayerStatisticsPage/PlayerStatisticsPage';
 import RankingsPage from '../RankingsPage/RankingsPage';
 import PlayerNextMatchesPage from '../PlayerNextMatchesPage/PlayerNextMatchesPage';
 import PlayerAnnouncementPage from '../PlayerAnnouncementPage/PlayerAnnouncementPage';
+import MyProfilePage from '../MyProfilePage/MyProfilePage';
+import RecordSessionPage from '../RecordSessionPage/RecordSessionPage';
 
 
 const PlayerDashboard = () => {
@@ -14,7 +16,7 @@ const PlayerDashboard = () => {
   const renderActiveTabContent = () => {
     switch (activeTab) {
       case 'profile':
-        return <div className="profile-section">Profile content...</div>;
+        return <MyProfilePage />;
       case 'announcements':
         return <PlayerAnnouncementPage />;
       case 'rankings':
@@ -28,7 +30,7 @@ const PlayerDashboard = () => {
       case 'attendance':
         return <PlayerAttendancePage />;
       case 'sessions':
-        return <div>Session recording content...</div>;
+        return <RecordSessionPage />;
       default:
         return <div>Select a tab...</div>;
     }
