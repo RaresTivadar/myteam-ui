@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 
 const SignUpPage = () => {
-  const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [email, setEmail] = useState('');
 
@@ -30,20 +29,13 @@ const SignUpPage = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log('Signing up with:', username, email, password);
+    console.log('Signing up with:', email, password);
   };
 
   return (
     <div style={{ textAlign: 'center', marginTop: '50px' }}>
       <h2>Sign Up</h2>
       <form style={formStyle} onSubmit={handleSubmit}>
-        <input
-          style={inputStyle}
-          type="text"
-          placeholder="Username"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
-        />
         <input
           style={inputStyle}
           type="email"

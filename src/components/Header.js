@@ -2,11 +2,11 @@ import React from 'react';
 
 const Header = () => {
   const headerStyle = {
-    backgroundColor: '#f2e9f3', 
-    color: '#5e548e',
+    backgroundColor: '#5e548e', 
+    color: 'white',
     textAlign: 'center',
-    padding: '20px 0',
-    fontSize: '24px', 
+    padding: '10px 0 10px 0',
+    fontSize: '16px', 
   };
 
   return (
