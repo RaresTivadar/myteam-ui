@@ -8,9 +8,9 @@ const createAnnouncement = async (data) => {
 };
 
 const getAllAnnouncements = async (teamId) => {
-  console.log('Fetching announcements for team:', teamId); // Log the teamId
+  console.log('Fetching announcements for team:', teamId);
   const response = await axios.get(`${API_URL}/team/${teamId}`);
-  console.log('Response data:', response.data); // Log the response data
+  console.log('Response data:', response.data);
   return response.data;
 };
 

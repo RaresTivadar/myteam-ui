@@ -9,7 +9,6 @@ const PlayerRankingsPage = () => {
     const fetchRankings = async () => {
       try {
         const data = await rankingService.getAllRankings();
-        // Sort the rankings by points in descending order on the client side
         const sortedRankings = data.sort((a, b) => b.points - a.points);
         setRankings(sortedRankings);
       } catch (error) {

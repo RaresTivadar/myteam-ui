@@ -4,7 +4,7 @@ import announcementService from '../../services/announcementService';
 import { useParams } from 'react-router-dom';
 
 const CoachAnnouncementPage = () => {
-  const { teamId } = useParams(); // Get teamId from URL parameters
+  const { teamId } = useParams();
   const [announcements, setAnnouncements] = useState([]);
   const [showForm, setShowForm] = useState(false);
   const [newTitle, setNewTitle] = useState('');
@@ -15,7 +15,7 @@ const CoachAnnouncementPage = () => {
 
   useEffect(() => {
     fetchAnnouncements();
-  }, [teamId]); // Fetch announcements whenever teamId changes
+  }, [teamId]);
 
   const fetchAnnouncements = async () => {
     try {

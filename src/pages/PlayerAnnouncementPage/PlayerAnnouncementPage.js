@@ -6,7 +6,7 @@ const PlayerAnnouncementPage = ({ teamId }) => {
   const [announcements, setAnnouncements] = useState([]);
 
   useEffect(() => {
-    console.log('Team ID from props:', teamId); // Log the teamId
+    console.log('Team ID from props:', teamId); 
     if (teamId) {
       fetchAnnouncements(teamId);
     }
@@ -15,7 +15,7 @@ const PlayerAnnouncementPage = ({ teamId }) => {
   const fetchAnnouncements = async (teamId) => {
     try {
       const data = await announcementService.getAllAnnouncements(teamId);
-      console.log('Fetched announcements:', data); // Log the fetched announcements
+      console.log('Fetched announcements:', data); 
       setAnnouncements(data);
     } catch (error) {
       console.error('Error fetching announcements:', error);

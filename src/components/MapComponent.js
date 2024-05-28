@@ -7,7 +7,6 @@ const MapComponent = ({ latitude, longitude}) => {
   };
 
   const mapUrl = `https://www.google.com/maps/embed/v1/place?key=AIzaSyAPMq1Yof4Mr8W3z8C7NCgduED4wcJsqwU&q=${latitude},${longitude}`;
-  //const mapUrl = `https://www.google.com/maps/embed/v1/place?key=${process.env.REACT_APP_GOOGLE_MAPS_API_KEY}&q=${latitude},${longitude}`;
 
   return (
     <iframe

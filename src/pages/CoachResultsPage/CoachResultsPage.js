@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import MapComponent from '../../components/MapComponent';
 import { format } from 'date-fns';
-//import './CoachResultsPage.css';
 
 const CoachResultsPage = () => {
   const [results, setResults] = useState([]);

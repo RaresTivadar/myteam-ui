@@ -19,7 +19,7 @@ const CoachTeamDetails = () => {
     const fetchTeamDetails = async () => {
       try {
         const response = await axios.get(`http://localhost:3107/api/teams/${teamId}`);
-        setTeamName(response.data.name); // Assuming the response contains the team name
+        setTeamName(response.data.name);
       } catch (error) {
         console.error('Error fetching team details:', error);
       }

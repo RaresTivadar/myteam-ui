@@ -128,7 +128,7 @@
     max-width: 800px;
     margin: 40px auto;
     padding: 20px;
-    background: var(--background-color); /* Use the variable */
+    background: var(--background-color); 
     border-radius: 8px;
     box-shadow: 0 0 5px rgba(0,0,0,0.1);
     text-align: center;
@@ -136,23 +136,20 @@
   
   .calendar-day {
     min-height: 100px;
-    background: var(--secondary-background-color); /* Use the variable for secondary background */
-    border: 1px solid var(--border-color); /* Use the variable for borders */
+    background: var(--secondary-background-color); 
+    border: 1px solid var(--border-color); 
     position: relative;
   }
   
   .calendar-day .number {
-    background-color: var(--secondary-background-color); /* Use the variable */
+    background-color: var(--secondary-background-color); 
   }
   
   .calendar-day .event {
-    background-color: var(--border-color); /* Use the variable */
+    background-color: var(--border-color); 
   }
   
-  /* ... other styles ... */
-  
-  /* Ensure this is applied after the previous styles */
   [data-theme='dark'] .calendar-day.disabled .number {
-    color: var(--secondary-text-color); /* Use the variable for secondary text */
+    color: var(--secondary-text-color); 
   }
   

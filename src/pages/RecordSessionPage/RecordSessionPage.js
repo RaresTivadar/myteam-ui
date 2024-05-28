@@ -12,7 +12,7 @@ const RecordSessionPage = () => {
   }, []);
 
   const fetchSessions = async () => {
-    const userId = localStorage.getItem('userId'); // Get user ID from local storage
+    const userId = localStorage.getItem('userId'); 
     if (!userId) {
       console.error('User ID not found');
       return;
@@ -32,7 +32,7 @@ const RecordSessionPage = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const userId = localStorage.getItem('userId'); // Get user ID from local storage
+    const userId = localStorage.getItem('userId'); 
 
     if (!userId) {
       console.error('User ID not found');
@@ -42,7 +42,7 @@ const RecordSessionPage = () => {
     try {
       const response = await axios.post('http://localhost:3107/api/sessions', {
         ...newSession,
-        user: userId // Include user ID in the request payload
+        user: userId 
       });
       setSessions([...sessions, response.data.session]);
       setNewSession({ type: '', duration: '', date: '' });

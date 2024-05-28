@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import teamService from '../../services/teamService'; // Update the import to use teamService
+import teamService from '../../services/teamService'; 
 import './CoachDashboard.css';
 import MyProfilePage from '../MyProfilePage/MyProfilePage';
 
@@ -11,8 +11,6 @@ const CoachDashboard = () => {
   const [accessCode, setAccessCode] = useState('');
   const [isCreatingTeam, setIsCreatingTeam] = useState(false);
   const navigate = useNavigate();
-
-  // Define fetchTeams function
   const fetchTeams = async () => {
     try {
       const userId = localStorage.getItem('userId');
@@ -24,7 +22,7 @@ const CoachDashboard = () => {
   };
 
   useEffect(() => {
-    fetchTeams(); // Call fetchTeams when the component mounts
+    fetchTeams(); 
   }, []);
 
   const handleTeamClick = (teamId) => {
@@ -43,7 +41,7 @@ const CoachDashboard = () => {
       setTeamName('');
       setAccessCode('');
       setIsCreatingTeam(false);
-      fetchTeams(); // Refresh team list after creation
+      fetchTeams(); 
     } catch (error) {
       console.error('Error creating team:', error);
     }

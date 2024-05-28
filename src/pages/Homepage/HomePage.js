@@ -34,15 +34,15 @@ const HomePage = () => {
 
   const handleLogin = async (e) => {
     e.preventDefault();
-    console.log('Logging in with:', { email, password }); // Debug log
+    console.log('Logging in with:', { email, password }); 
 
     try {
       const response = await axios.post('http://localhost:3107/api/users/login', { email, password });
-      console.log('Login response:', response.data); // Debug log
-
+      console.log('Login response:', response.data);
+      
       const user = response.data.user;
-      localStorage.setItem('userId', user._id); // Store user ID in local storage
-      localStorage.setItem('userRole', user.role); // Store user role in local storage
+      localStorage.setItem('userId', user._id); 
+      localStorage.setItem('userRole', user.role);
 
       if (user.role === 'player') {
         navigate('/player');
@@ -52,7 +52,7 @@ const HomePage = () => {
         navigate('/admin');
       }
     } catch (error) {
-      console.error('Error logging in:', error); // Debug log
+      console.error('Error logging in:', error); 
       if (error.response && error.response.data) {
         setMessage(error.response.data.error || 'Error logging in');
       } else {

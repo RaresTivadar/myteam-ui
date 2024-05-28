@@ -67,8 +67,8 @@
     border-radius: 5px;
     cursor: pointer;
     background-color: #f9f9f9;
-    color: black; /* Make the text color black */
-    transition: background-color 0.3s, color 0.3s; /* Add transition for color */
+    color: black; 
+    transition: background-color 0.3s, color 0.3s;
   }
   
   .attendance-buttons button.selected {

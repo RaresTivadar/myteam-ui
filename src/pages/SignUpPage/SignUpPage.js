@@ -39,7 +39,6 @@ const SignUpPage = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Validate birthdate
     const selectedDate = new Date(birthdate);
     const currentDate = new Date();
     if (selectedDate > currentDate) {
@@ -55,7 +54,7 @@ const SignUpPage = () => {
         email,
         password,
         role,
-        accessCode, // Add access code to the request
+        accessCode, 
       });
       navigate('/');
     } catch (err) {
