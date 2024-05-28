@@ -17,7 +17,7 @@ import {
 } from 'date-fns';
 import './CoachCalendarPage.css';
 
-const CoachCalendarPage = () => {
+const CoachCalendarPage = ({ teamId }) => {
   const [currentDate, setCurrentDate] = useState(new Date());
   const [events, setEvents] = useState([]);
   const [eventName, setEventName] = useState('');
@@ -32,7 +32,7 @@ const CoachCalendarPage = () => {
   useEffect(() => {
     const fetchEvents = async () => {
       try {
-        const response = await axios.get('http://localhost:3107/api/events');
+        const response = await axios.get(`http://localhost:3107/api/events/team/${teamId}`);
         setEvents(response.data);
       } catch (error) {
         console.error('Error fetching events:', error);
@@ -40,7 +40,7 @@ const CoachCalendarPage = () => {
     };
 
     fetchEvents();
-  }, []);
+  }, [teamId]);
 
   const handlePrevMonth = () => {
     setCurrentDate(subMonths(currentDate, 1));
@@ -74,7 +74,8 @@ const CoachCalendarPage = () => {
             date: format(futureEventDate, 'yyyy-MM-dd'),
             eventType: eventType,
             location: eventLocation,
-            recurring: isRecurring
+            recurring: isRecurring,
+            team: teamId
           });
         }
       }
@@ -85,13 +86,14 @@ const CoachCalendarPage = () => {
         date: eventDate,
         eventType: eventType,
         location: eventLocation,
-        recurring: isRecurring
+        recurring: isRecurring,
+        team: teamId
       });
     }
 
     try {
       await Promise.all(eventsToAdd.map(event => axios.post('http://localhost:3107/api/events', event)));
-      const response = await axios.get('http://localhost:3107/api/events');
+      const response = await axios.get(`http://localhost:3107/api/events/team/${teamId}`);
       setEvents(response.data);
     } catch (error) {
       console.error('Error adding event:', error);
@@ -109,7 +111,7 @@ const CoachCalendarPage = () => {
   const handleDeleteEvent = async (eventId) => {
     try {
       await axios.delete(`http://localhost:3107/api/events/${eventId}`);
-      const response = await axios.get('http://localhost:3107/api/events');
+      const response = await axios.get(`http://localhost:3107/api/events/team/${teamId}`);
       setEvents(response.data);
       setSelectedEvent(null);
     } catch (error) {

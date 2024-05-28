@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_URL = 'http://localhost:5000/api/users';
+const API_URL = 'http://localhost:3107/api/users';
 
 const signupUser = async (data) => {
   const response = await axios.post(`${API_URL}/signup`, data);
@@ -47,6 +47,11 @@ const getUserById = async (userId) => {
     return response.data;
   };
 
+const getUsersByTeam = async (teamId) => {
+    const response = await axios.get(`${API_URL}/team/${teamId}`);
+    return response.data;
+  };
+
 export default {
   signupUser,
   loginUser,
@@ -57,4 +62,5 @@ export default {
   removeTeamFromUser,
   getUserTeams,
   getUserById,
+  getUsersByTeam,
 };

@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import eventService from '../../services/eventService';
+import userService from '../../services/userService';
 import './CoachAttendancePage.css';
 
-const CoachAttendancePage = () => {
+const CoachAttendancePage = ({ teamId }) => {
   const [events, setEvents] = useState([]);
   const [users, setUsers] = useState([]);
   const [selectedUser, setSelectedUser] = useState(null);
@@ -11,9 +12,11 @@ const CoachAttendancePage = () => {
     const fetchEventsAndUsers = async () => {
       try {
         const [eventData, userData] = await Promise.all([
-          eventService.getAllEvents(),
-          eventService.getAllUsers(),
+          eventService.getEventsByTeam(teamId),
+          userService.getUsersByTeam(teamId),
         ]);
+        console.log('Fetched events:', eventData);
+        console.log('Fetched users:', userData);
         setEvents(eventData);
         setUsers(userData);
       } catch (error) {
@@ -21,8 +24,10 @@ const CoachAttendancePage = () => {
       }
     };
 
-    fetchEventsAndUsers();
-  }, []);
+    if (teamId) {
+      fetchEventsAndUsers();
+    }
+  }, [teamId]);
 
   const handleAttendanceChange = (eventId, userId, status) => {
     const updatedEvents = events.map(event => {

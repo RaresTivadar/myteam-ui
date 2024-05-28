@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import eventService from '../../services/eventService';
 import MapComponent from '../../components/MapComponent';
-import { format, startOfDay } from 'date-fns';
+import { format, startOfDay, isBefore } from 'date-fns';
 import './CoachNextMatchesPage.css';
 
-const CoachNextMatchesPage = () => {
+const CoachNextMatchesPage = ({ teamId }) => {
   const [matches, setMatches] = useState([]);
   const [selectedMatch, setSelectedMatch] = useState(null);
   const [showForm, setShowForm] = useState(false);
@@ -21,8 +21,8 @@ const CoachNextMatchesPage = () => {
   useEffect(() => {
     const fetchMatches = async () => {
       try {
-        const data = await eventService.getEventsByType('Match');
-        const filteredMatches = data.filter(match => new Date(match.date) >= startOfDay(new Date()));
+        const data = await eventService.getEventsByTeam(teamId);
+        const filteredMatches = data.filter(event => event.eventType === 'Match' && new Date(event.date) >= startOfDay(new Date()));
         const sortedMatches = filteredMatches.sort((a, b) => new Date(a.date) - new Date(b.date));
         setMatches(sortedMatches);
       } catch (error) {
@@ -30,8 +30,10 @@ const CoachNextMatchesPage = () => {
       }
     };
 
-    fetchMatches();
-  }, []);
+    if (teamId) {
+      fetchMatches();
+    }
+  }, [teamId]);
 
   const handleSelectMatch = (match) => {
     setSelectedMatch(match);
@@ -44,10 +46,23 @@ const CoachNextMatchesPage = () => {
   };
 
   const handleSubmit = async () => {
+    if (!formMatch.name.trim()) {
+      alert('Event name is required');
+      return;
+    }
+
+    const startDate = new Date(formMatch.date);
+    if (isBefore(startDate, startOfDay(new Date()))) {
+      alert("Cannot add events in the past.");
+      return;
+    }
+
+    const newMatch = { ...formMatch, eventType: 'Match', team: teamId };
+
     try {
-      const newMatch = await eventService.createEvent({ ...formMatch, eventType: 'Match' });
+      const createdMatch = await eventService.createEvent(newMatch);
       const filteredMatches = matches.filter(match => new Date(match.date) >= startOfDay(new Date()));
-      const sortedMatches = [...filteredMatches, newMatch].sort((a, b) => new Date(a.date) - new Date(b.date));
+      const sortedMatches = [...filteredMatches, createdMatch].sort((a, b) => new Date(a.date) - new Date(b.date));
       setMatches(sortedMatches);
       setFormMatch({
         name: '',

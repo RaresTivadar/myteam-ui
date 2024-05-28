@@ -1,7 +1,6 @@
 import axios from 'axios';
 
 const API_URL = 'http://localhost:3107/api/events';
-const USER_API_URL = 'http://localhost:3107/api/users';
 
 const getAllEvents = async () => {
   const response = await axios.get(API_URL);
@@ -33,31 +32,17 @@ const updateAttendance = async (eventId, attendanceData) => {
   return response.data;
 };
 
-const getAllUsers = async () => {
-  const response = await axios.get(USER_API_URL);
+const getEventsByTeam = async (teamId) => {
+  const response = await axios.get(`${API_URL}/team/${teamId}`);
   return response.data;
 };
 
-const getAllUsersAttendance = async () => {
-    const response = await axios.get(USER_API_URL);
-    return response.data;
-  };
-
-const getUserById = async (userId) => {
-    const response = await axios.get(`${USER_API_URL}/${userId}`);
-    return response.data;
-  };
-  
-const eventService = {
+export default {
   getAllEvents,
   getEventsByType,
   createEvent,
   updateEvent,
   deleteEvent,
   updateAttendance,
-  getAllUsers,
-  getAllUsersAttendance,
-  getUserById
+  getEventsByTeam,
 };
-
-export default eventService;
