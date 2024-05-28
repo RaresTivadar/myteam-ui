@@ -1,11 +1,36 @@
-import React, { useState } from 'react';
-import { format, addMonths, subMonths, startOfMonth, endOfMonth, startOfWeek, endOfWeek, eachDayOfInterval, isSameMonth, isSameDay} from 'date-fns';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import {
+  format,
+  addMonths,
+  subMonths,
+  startOfMonth,
+  endOfMonth,
+  startOfWeek,
+  endOfWeek,
+  eachDayOfInterval,
+  isSameMonth,
+  isSameDay
+} from 'date-fns';
 import './PlayerCalendarPage.css';
 
 const PlayerCalendarPage = () => {
   const [currentDate, setCurrentDate] = useState(new Date());
-  const [events] = useState([]);
+  const [events, setEvents] = useState([]);
+  const [selectedEvent, setSelectedEvent] = useState(null);
 
+  useEffect(() => {
+    const fetchEvents = async () => {
+      try {
+        const response = await axios.get('http://localhost:3107/api/events');
+        setEvents(response.data);
+      } catch (error) {
+        console.error('Error fetching events:', error);
+      }
+    };
+
+    fetchEvents();
+  }, []);
 
   const handlePrevMonth = () => {
     setCurrentDate(subMonths(currentDate, 1));
@@ -15,12 +40,12 @@ const PlayerCalendarPage = () => {
     setCurrentDate(addMonths(currentDate, 1));
   };
 
-  
   const findEventsForDay = (day) => {
-    return events.filter(event => {
-      const eventDateObj = new Date(event.date);
-      return isSameDay(eventDateObj, day) || (event.recurring && eventDateObj.getDay() === day.getDay());
-    });
+    return events.filter(event => isSameDay(new Date(event.date), day));
+  };
+
+  const handleEventClick = (event) => {
+    setSelectedEvent(event);
   };
 
   const monthStart = startOfMonth(currentDate);
@@ -47,11 +72,14 @@ const PlayerCalendarPage = () => {
 
       <div className="calendar-grid">
         {calendarDays.map((day, i) => (
-          <div key={i} className={`calendar-day ${isSameMonth(day, monthStart) ? '' : 'disabled'}`}>
+          <div
+            key={i}
+            className={`calendar-day ${isSameMonth(day, monthStart) ? '' : 'disabled'}`}
+          >
             <span className="number">{format(day, dateFormat)}</span>
             <div className="events">
               {findEventsForDay(day).map(event => (
-                <div key={event.id} className="event">
+                <div key={event._id} className="event" onClick={() => handleEventClick(event)}>
                   {event.name}
                 </div>
               ))}
@@ -59,6 +87,16 @@ const PlayerCalendarPage = () => {
           </div>
         ))}
       </div>
+
+      {selectedEvent && (
+        <div className="event-details">
+          <h2>{selectedEvent.name}</h2>
+          <p>Type: {selectedEvent.eventType}</p>
+          <p>Date: {format(new Date(selectedEvent.date), 'yyyy-MM-dd')}</p>
+          <p>Location: {selectedEvent.location}</p>
+          {selectedEvent.eventType === 'Other' && <p>Description: {selectedEvent.description}</p>}
+        </div>
+      )}
     </div>
   );
 };

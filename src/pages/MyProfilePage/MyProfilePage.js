@@ -1,18 +1,24 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import './MyProfilePage.css';
 
 const MyProfilePage = () => {
-  const [profile, setProfile] = useState({
-    photo: '/path/to/default/photo.jpg', 
-    name: 'John',
-    surname: 'Doe',
-    email: 'john.doe@example.com',
-    age: 30,
-    birthdate: '1990-01-01',
-    role: 'Player'
-  });
-
+  const [profile, setProfile] = useState(null);
   const [isEditing, setIsEditing] = useState(false);
+
+  useEffect(() => {
+    const fetchProfile = async () => {
+      try {
+        const userId = localStorage.getItem('userId');
+        const response = await axios.get(`http://localhost:3107/api/users/${userId}`);
+        setProfile(response.data);
+      } catch (error) {
+        console.error('Error fetching profile:', error);
+      }
+    };
+
+    fetchProfile();
+  }, []);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -24,27 +30,34 @@ const MyProfilePage = () => {
 
   const toggleEdit = () => setIsEditing(!isEditing);
 
+  const handleSave = async () => {
+    try {
+      const userId = localStorage.getItem('userId');
+      await axios.put(`http://localhost:3107/api/users/${userId}`, profile);
+      setIsEditing(false);
+    } catch (error) {
+      console.error('Error updating profile:', error);
+    }
+  };
+
+  const formatDate = (dateString) => {
+    const options = { year: 'numeric', month: 'long', day: 'numeric' };
+    return new Date(dateString).toLocaleDateString(undefined, options);
+  };
+
+  if (!profile) {
+    return <div>Loading...</div>;
+  }
+
   return (
     <div className="profile-container">
       <div className="profile-content">
-        <div className="profile-photo">
-          <img src={profile.photo} alt="Profile" />
-          {isEditing && (
-            <input
-              type="text"
-              name="photo"
-              value={profile.photo}
-              onChange={handleInputChange}
-              placeholder="Photo URL"
-            />
-          )}
-        </div>
         <div className="profile-details">
           {!isEditing ? (
             <>
               <p>Name: {profile.name}</p>
               <p>Surname: {profile.surname}</p>
-              <p>Birthdate: {profile.birthdate}</p>
+              <p>Birthdate: {formatDate(profile.birthdate)}</p>
               <p>Role: {profile.role}</p>
               <p>Email: {profile.email}</p>
               <button onClick={toggleEdit}>Edit Profile</button>
@@ -68,7 +81,7 @@ const MyProfilePage = () => {
               <input
                 type="date"
                 name="birthdate"
-                value={profile.birthdate}
+                value={profile.birthdate.split('T')[0]}
                 onChange={handleInputChange}
                 placeholder="Birthdate"
               />
@@ -79,7 +92,7 @@ const MyProfilePage = () => {
                 onChange={handleInputChange}
                 placeholder="Email"
               />
-              <button onClick={toggleEdit}>Save Changes</button>
+              <button onClick={handleSave}>Save Changes</button>
             </div>
           )}
         </div>

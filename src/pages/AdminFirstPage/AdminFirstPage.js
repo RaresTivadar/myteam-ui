@@ -1,15 +1,24 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 import './AdminFirstPage.css';
 
 const AdminFirstPage = () => {
+  const [teams, setTeams] = useState([]);
   const navigate = useNavigate();
 
-  const teams = [
-    { id: 1, name: "Team Alpha", userCount: 15, coachCount: 2, playerCount: 13 },
-    { id: 2, name: "Team Beta", userCount: 12, coachCount: 1, playerCount: 11 },
-    { id: 3, name: "Team Gamma", userCount: 8, coachCount: 1, playerCount: 7 },
-  ];
+  useEffect(() => {
+    const fetchTeams = async () => {
+      try {
+        const response = await axios.get('http://localhost:3107/api/teams');
+        setTeams(response.data);
+      } catch (error) {
+        console.error('Error fetching teams:', error);
+      }
+    };
+
+    fetchTeams();
+  }, []);
 
   const navigateToTeamDetail = (teamId) => {
     navigate(`/admin/team/${teamId}`);
@@ -29,11 +38,11 @@ const AdminFirstPage = () => {
         </thead>
         <tbody>
           {teams.map(team => (
-            <tr key={team.id} onClick={() => navigateToTeamDetail(team.id)}>
+            <tr key={team._id} onClick={() => navigateToTeamDetail(team._id)}>
               <td>{team.name}</td>
-              <td>{team.userCount}</td>
-              <td>{team.coachCount}</td>
-              <td>{team.playerCount}</td>
+              <td>{team.coaches.length + team.players.length}</td>
+              <td>{team.coaches.length}</td>
+              <td>{team.players.length}</td>
             </tr>
           ))}
         </tbody>

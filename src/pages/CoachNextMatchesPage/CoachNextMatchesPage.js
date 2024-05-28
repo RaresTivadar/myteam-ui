@@ -1,102 +1,81 @@
-import React, { useState } from 'react';
-import MapComponent from '../../components/MapComponent'; 
-import './CoachNextMatchesPage.css'; 
+import React, { useState, useEffect } from 'react';
+import eventService from '../../services/eventService';
+import MapComponent from '../../components/MapComponent';
+import { format, startOfDay } from 'date-fns';
+import './CoachNextMatchesPage.css';
 
 const CoachNextMatchesPage = () => {
-  const [matches, setMatches] = useState([
-    {
-      id: 1,
-      date: '2024-04-15',
-      teams: 'Team A vs Team B',
-      location: 'Timisoara, Romania',
-      latitude: 45.74342346191406,
-      longitude: 21.248149871826172,
-      h2h: 'Head-to-Head info here',
-      stadium: 'Baza 2 Timisoara',
-      score: '',
-    },
-    {
-      id: 2,
-      date: '2024-04-22',
-      teams: 'Team A vs Team C',
-      location: 'Timisoara, Romania',
-      latitude: 45.7435,
-      longitude: 21.2257,
-      h2h: 'Head-to-Head info here',
-      stadium: 'Baza 1 Timisoara',
-      score: '',
-    },
-  ]);
+  const [matches, setMatches] = useState([]);
   const [selectedMatch, setSelectedMatch] = useState(null);
   const [showForm, setShowForm] = useState(false);
   const [formMatch, setFormMatch] = useState({
+    name: '',
     date: '',
-    teams: '',
     location: '',
     latitude: '',
     longitude: '',
-    h2h: '',
     stadium: '',
     score: '',
   });
+
+  useEffect(() => {
+    const fetchMatches = async () => {
+      try {
+        const data = await eventService.getEventsByType('Match');
+        const filteredMatches = data.filter(match => new Date(match.date) >= startOfDay(new Date()));
+        const sortedMatches = filteredMatches.sort((a, b) => new Date(a.date) - new Date(b.date));
+        setMatches(sortedMatches);
+      } catch (error) {
+        console.error('Error fetching matches:', error);
+      }
+    };
+
+    fetchMatches();
+  }, []);
 
   const handleSelectMatch = (match) => {
     setSelectedMatch(match);
     setShowForm(false);
   };
 
-  const handleInputChange = (e, key) => {
-    const value = e.target.value;
-    setFormMatch({ ...formMatch, [key]: value });
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormMatch({ ...formMatch, [name]: value });
   };
 
-  const handleSubmit = () => {
-    if (selectedMatch) {
-      setMatches(
-        matches.map((match) =>
-          match.id === selectedMatch.id ? { ...selectedMatch, ...formMatch } : match
-        )
-      );
-    } else {
-      setMatches([...matches, { ...formMatch, id: Date.now() }]);
+  const handleSubmit = async () => {
+    try {
+      const newMatch = await eventService.createEvent({ ...formMatch, eventType: 'Match' });
+      const filteredMatches = matches.filter(match => new Date(match.date) >= startOfDay(new Date()));
+      const sortedMatches = [...filteredMatches, newMatch].sort((a, b) => new Date(a.date) - new Date(b.date));
+      setMatches(sortedMatches);
+      setFormMatch({
+        name: '',
+        date: '',
+        location: '',
+        latitude: '',
+        longitude: '',
+        stadium: '',
+        score: '',
+      });
+    } catch (error) {
+      console.error('Error adding match:', error);
     }
     setShowForm(false);
-    setSelectedMatch(null);
-    setFormMatch({
-      date: '',
-      teams: '',
-      location: '',
-      latitude: '',
-      longitude: '',
-      h2h: '',
-      stadium: '',
-      score: '',
-    });
   };
 
-  const handleDeleteMatch = (matchId) => {
-    setMatches(matches.filter((match) => match.id !== matchId));
+  const handleDeleteMatch = async (matchId) => {
+    try {
+      await eventService.deleteEvent(matchId);
+      setMatches(matches.filter((match) => match._id !== matchId));
+    } catch (error) {
+      console.error('Error deleting match:', error);
+    }
   };
 
   const handleAddMatch = () => {
     setSelectedMatch(null);
     setShowForm(true);
-    setFormMatch({
-      date: '',
-      teams: '',
-      location: '',
-      latitude: '',
-      longitude: '',
-      h2h: '',
-      stadium: '',
-      score: '',
-    });
-  };
-
-  const handleEditMatch = (match) => {
-    setSelectedMatch(match);
-    setShowForm(true);
-    setFormMatch(match);
   };
 
   return (
@@ -106,78 +85,77 @@ const CoachNextMatchesPage = () => {
         Add New Match
       </button>
       {matches.map((match) => (
-        <div key={match.id} className="match">
+        <div key={match._id} className="match">
           <div onClick={() => handleSelectMatch(match)}>
-            {match.date}  {match.teams}  {match.location}  Score: {match.score || 'TBD'}
+            <strong>{match.name}</strong>: {match.score || 'TBD'} - {format(new Date(match.date), 'yyyy-MM-dd')} - {match.location}
           </div>
-          <button onClick={() => handleEditMatch(match)} className="edit-match-btn">
-            Edit
-          </button>
-          <button onClick={() => handleDeleteMatch(match.id)} className="delete-match-btn">
+          <button onClick={() => handleDeleteMatch(match._id)} className="delete-match-btn">
             Delete
           </button>
+          {selectedMatch && selectedMatch._id === match._id && (
+            <div className="selected-match-details">
+              <h2>Details for {match.name}</h2>
+              <p>Stadium: {match.stadium}</p>
+              <MapComponent latitude={match.latitude} longitude={match.longitude} />
+            </div>
+          )}
         </div>
       ))}
-      {(showForm ) && (
+      {showForm && (
         <div className="match-form">
           <input
             type="text"
-            value={formMatch.teams}
-            onChange={(e) => handleInputChange(e, 'teams')}
-            placeholder='Teams'
+            name="name"
+            value={formMatch.name}
+            onChange={handleInputChange}
+            placeholder="Event Name"
           />
           <input
             type="text"
+            name="location"
             value={formMatch.location}
-            onChange={(e) => handleInputChange(e, 'location')}
-            placeholder='Location'
+            onChange={handleInputChange}
+            placeholder="Location"
           />
           <input
             type="date"
+            name="date"
             value={formMatch.date}
-            onChange={(e) => handleInputChange(e, 'date')}
-            placeholder='Date'
+            onChange={handleInputChange}
+            placeholder="Date"
           />
           <input
             type="text"
-            value={formMatch.h2h}
-            onChange={(e) => handleInputChange(e, 'h2h')}
-            placeholder='h2h'
-          />
-          <input
-            type="text"
+            name="stadium"
             value={formMatch.stadium}
-            onChange={(e) => handleInputChange(e, 'stadium')}
-            placeholder='Stadium'
-          />
-          {/* <input
-            type="text"
-            value={formMatch.latitude}
-            onChange={(e) => handleInputChange(e, 'latitute')}
-            placeholder='Latitude'
+            onChange={handleInputChange}
+            placeholder="Stadium"
           />
           <input
             type="text"
+            name="latitude"
+            value={formMatch.latitude}
+            onChange={handleInputChange}
+            placeholder="Latitude"
+          />
+          <input
+            type="text"
+            name="longitude"
             value={formMatch.longitude}
-            onChange={(e) => handleInputChange(e, 'longitute')}
-            placeholder='Longitude'
-          /> */}
+            onChange={handleInputChange}
+            placeholder="Longitude"
+          />
+          <input
+            type="text"
+            name="score"
+            value={formMatch.score}
+            onChange={handleInputChange}
+            placeholder="Score"
+          />
           <button onClick={handleSubmit} className="submit-match-btn">
-            {selectedMatch ? 'Save Changes' : 'Add Match'}
+            Add Match
           </button>
         </div>
-      )}
-      {selectedMatch && (
-      <div className="selected-match-details">
-        <h2>Details for {selectedMatch.teams}</h2>
-        <p>Head-to-Head: {selectedMatch.h2h}</p>
-        <p>Stadium: {selectedMatch.stadium}</p>
-        <MapComponent
-          latitude={selectedMatch.latitude}
-          longitude={selectedMatch.longitude}
-        />
-      </div>
-    
       )}
     </div>
   );

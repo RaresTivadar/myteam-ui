@@ -1,5 +1,20 @@
-import React, { useState } from 'react';
-import { format, addMonths, subMonths, startOfMonth, endOfMonth, startOfWeek, endOfWeek, eachDayOfInterval, isSameMonth, isSameDay, isBefore, startOfDay, addWeeks } from 'date-fns';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import {
+  format,
+  addMonths,
+  subMonths,
+  startOfMonth,
+  endOfMonth,
+  startOfWeek,
+  endOfWeek,
+  eachDayOfInterval,
+  isSameMonth,
+  isSameDay,
+  isBefore,
+  startOfDay,
+  addWeeks
+} from 'date-fns';
 import './CoachCalendarPage.css';
 
 const CoachCalendarPage = () => {
@@ -10,7 +25,22 @@ const CoachCalendarPage = () => {
   const [eventDate, setEventDate] = useState(format(new Date(), 'yyyy-MM-dd'));
   const [isRecurring, setIsRecurring] = useState(false);
   const [recurrenceWeeks, setRecurrenceWeeks] = useState(1);
+  const [eventType, setEventType] = useState('Training');
+  const [eventLocation, setEventLocation] = useState('');
+  const [selectedEvent, setSelectedEvent] = useState(null);
 
+  useEffect(() => {
+    const fetchEvents = async () => {
+      try {
+        const response = await axios.get('http://localhost:3107/api/events');
+        setEvents(response.data);
+      } catch (error) {
+        console.error('Error fetching events:', error);
+      }
+    };
+
+    fetchEvents();
+  }, []);
 
   const handlePrevMonth = () => {
     setCurrentDate(subMonths(currentDate, 1));
@@ -20,54 +50,79 @@ const CoachCalendarPage = () => {
     setCurrentDate(addMonths(currentDate, 1));
   };
 
-  const handleAddEvent = () => {
+  const handleAddEvent = async () => {
+    if (!eventName.trim()) {
+      alert('Event name is required');
+      return;
+    }
+
     const startDate = new Date(eventDate);
     if (isBefore(startDate, startOfDay(new Date()))) {
       alert("Cannot add events in the past.");
       return;
     }
-      if (isRecurring) {
+
+    const eventsToAdd = [];
+
+    if (isRecurring) {
       for (let i = 0; i < recurrenceWeeks; i++) {
         const futureEventDate = addWeeks(startDate, i);
         if (!isBefore(futureEventDate, startOfDay(new Date())) || isSameDay(futureEventDate, new Date())) {
-          const newEvent = {
-            id: Date.now() + i,
+          eventsToAdd.push({
             name: eventName,
             description: eventDescription,
             date: format(futureEventDate, 'yyyy-MM-dd'),
+            eventType: eventType,
+            location: eventLocation,
             recurring: isRecurring
-          };
-          setEvents(events => [...events, newEvent]);
+          });
         }
       }
     } else {
-      const newEvent = {
-        id: Date.now(),
+      eventsToAdd.push({
         name: eventName,
         description: eventDescription,
         date: eventDate,
+        eventType: eventType,
+        location: eventLocation,
         recurring: isRecurring
-      };
-      setEvents(events => [...events, newEvent]);
+      });
     }
-      resetForm();
-  };
-  
-  const resetForm = () => {
+
+    try {
+      await Promise.all(eventsToAdd.map(event => axios.post('http://localhost:3107/api/events', event)));
+      const response = await axios.get('http://localhost:3107/api/events');
+      setEvents(response.data);
+    } catch (error) {
+      console.error('Error adding event:', error);
+    }
+
     setEventName('');
     setEventDescription('');
-    setEventDate(format(new Date(), 'yyyy-MM-dd')); 
+    setEventDate(format(new Date(), 'yyyy-MM-dd'));
     setIsRecurring(false);
     setRecurrenceWeeks(1);
+    setEventType('Training');
+    setEventLocation('');
   };
-  
-  
+
+  const handleDeleteEvent = async (eventId) => {
+    try {
+      await axios.delete(`http://localhost:3107/api/events/${eventId}`);
+      const response = await axios.get('http://localhost:3107/api/events');
+      setEvents(response.data);
+      setSelectedEvent(null);
+    } catch (error) {
+      console.error('Error deleting event:', error);
+    }
+  };
 
   const findEventsForDay = (day) => {
-    return events.filter(event => {
-      const eventDateObj = new Date(event.date);
-      return isSameDay(eventDateObj, day) || (event.recurring && eventDateObj.getDay() === day.getDay());
-    });
+    return events.filter(event => isSameDay(new Date(event.date), day));
+  };
+
+  const handleEventClick = (event) => {
+    setSelectedEvent(event);
   };
 
   const monthStart = startOfMonth(currentDate);
@@ -94,11 +149,14 @@ const CoachCalendarPage = () => {
 
       <div className="calendar-grid">
         {calendarDays.map((day, i) => (
-          <div key={i} className={`calendar-day ${isSameMonth(day, monthStart) ? '' : 'disabled'}`}>
+          <div
+            key={i}
+            className={`calendar-day ${isSameMonth(day, monthStart) ? '' : 'disabled'}`}
+          >
             <span className="number">{format(day, dateFormat)}</span>
             <div className="events">
               {findEventsForDay(day).map(event => (
-                <div key={event.id} className="event">
+                <div key={event._id} className="event" onClick={() => handleEventClick(event)}>
                   {event.name}
                 </div>
               ))}
@@ -106,6 +164,17 @@ const CoachCalendarPage = () => {
           </div>
         ))}
       </div>
+
+      {selectedEvent && (
+        <div className="event-details">
+          <h2>{selectedEvent.name}</h2>
+          <p>Type: {selectedEvent.eventType}</p>
+          <p>Date: {format(new Date(selectedEvent.date), 'yyyy-MM-dd')}</p>
+          <p>Location: {selectedEvent.location}</p>
+          {selectedEvent.eventType === 'Other' && <p>Description: {selectedEvent.description}</p>}
+          <button onClick={() => handleDeleteEvent(selectedEvent._id)}>Delete Event</button>
+        </div>
+      )}
 
       <div className="event-form">
         <input
@@ -120,18 +189,21 @@ const CoachCalendarPage = () => {
           onChange={e => setEventDescription(e.target.value)}
         />
         <input
+          type="text"
+          placeholder="Location"
+          value={eventLocation}
+          onChange={e => setEventLocation(e.target.value)}
+        />
+        <input
           type="date"
           value={eventDate}
           onChange={e => setEventDate(e.target.value)}
         />
-        <label>
-          <input
-            type="checkbox"
-            checked={isRecurring}
-            onChange={(e) => setIsRecurring(e.target.checked)}
-          />
-          Recurring event
-        </label>
+        <select value={eventType} onChange={e => setEventType(e.target.value)}>
+          <option value="Training">Training</option>
+          <option value="Match">Match</option>
+          <option value="Other">Other</option>
+        </select>
         {isRecurring && (
           <div>
             <label htmlFor="recurrenceWeeks">Number of Weeks:</label>
@@ -144,11 +216,19 @@ const CoachCalendarPage = () => {
             />
           </div>
         )}
+        <label>
+          <input
+            type="checkbox"
+            checked={isRecurring}
+            onChange={(e) => setIsRecurring(e.target.checked)}
+          />
+          Recurring event
+        </label>
 
         <button onClick={handleAddEvent}>Add Event</button>
       </div>
     </div>
   );
 };
- 
+
 export default CoachCalendarPage;

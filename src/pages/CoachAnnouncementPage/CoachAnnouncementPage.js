@@ -1,17 +1,30 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './CoachAnnouncementPage.css';
+import announcementService from '../../services/announcementService';
+import { useParams } from 'react-router-dom';
 
 const CoachAnnouncementPage = () => {
-  const [announcements, setAnnouncements] = useState([
-    { id: 1, title: "Saturday Practice", content: "Practice at 10am on Saturday" },
-    { id: 2, title: "Team Meeting", content: "Team meeting after practice" },
-  ]);
+  const { teamId } = useParams(); // Get teamId from URL parameters
+  const [announcements, setAnnouncements] = useState([]);
   const [showForm, setShowForm] = useState(false);
   const [newTitle, setNewTitle] = useState('');
   const [newContent, setNewContent] = useState('');
   const [editingId, setEditingId] = useState(null);
   const [editTitle, setEditTitle] = useState('');
   const [editContent, setEditContent] = useState('');
+
+  useEffect(() => {
+    fetchAnnouncements();
+  }, [teamId]); // Fetch announcements whenever teamId changes
+
+  const fetchAnnouncements = async () => {
+    try {
+      const data = await announcementService.getAllAnnouncements(teamId);
+      setAnnouncements(data);
+    } catch (error) {
+      console.error('Error fetching announcements:', error);
+    }
+  };
 
   const toggleForm = () => {
     setShowForm(!showForm);
@@ -20,28 +33,40 @@ const CoachAnnouncementPage = () => {
     setNewContent('');
   };
 
-  const addOrUpdateAnnouncement = () => {
+  const addOrUpdateAnnouncement = async () => {
     if (editingId) {
-      setAnnouncements(announcements.map(announcement =>
-        announcement.id === editingId ? { ...announcement, title: editTitle, content: editContent } : announcement
-      ));
+      try {
+        await announcementService.updateAnnouncement(editingId, { title: editTitle, description: editContent });
+        fetchAnnouncements();
+      } catch (error) {
+        console.error('Error updating announcement:', error);
+      }
       setEditingId(null);
     } else {
-      const newAnnouncement = { id: Date.now(), title: newTitle, content: newContent };
-      setAnnouncements([...announcements, newAnnouncement]);
+      try {
+        await announcementService.createAnnouncement({ title: newTitle, description: newContent, teamId });
+        fetchAnnouncements();
+      } catch (error) {
+        console.error('Error creating announcement:', error);
+      }
     }
     toggleForm(); 
   };
 
   const startEdit = (announcement) => {
-    setEditingId(announcement.id);
+    setEditingId(announcement._id);
     setEditTitle(announcement.title);
-    setEditContent(announcement.content);
+    setEditContent(announcement.description);
     setShowForm(true);
   };
 
-  const deleteAnnouncement = (id) => {
-    setAnnouncements(announcements.filter(announcement => announcement.id !== id));
+  const deleteAnnouncement = async (id) => {
+    try {
+      await announcementService.deleteAnnouncement(id);
+      fetchAnnouncements();
+    } catch (error) {
+      console.error('Error deleting announcement:', error);
+    }
   };
 
   return (
@@ -65,12 +90,12 @@ const CoachAnnouncementPage = () => {
         </div>
       )}
       {announcements.map((announcement) => (
-        <div key={announcement.id} className="announcement">
+        <div key={announcement._id} className="announcement">
           <h3>{announcement.title}</h3>
-          <p>{announcement.content}</p>
+          <p>{announcement.description}</p>
           <div className="announcement-actions">
             <button className="edit-btn" onClick={() => startEdit(announcement)}>Edit</button>
-            <button className="delete-btn" onClick={() => deleteAnnouncement(announcement.id)}>Delete</button>
+            <button className="delete-btn" onClick={() => deleteAnnouncement(announcement._id)}>Delete</button>
           </div>
         </div>
       ))}
