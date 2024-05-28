@@ -12,11 +12,12 @@ const Footer = () => {
         <section className="footer-section">
           <h4>Quick Links</h4>
           <ul>
-            <li><a href="#home">Home</a></li>
-            <li><a href="#services">Services</a></li>
-            <li><a href="#contact">Contact Us</a></li>
+            <li><a href="/">Home</a></li>
+            <li><a href="/services">Services</a></li>
+            <li><a href="/contact">Contact Us</a></li>
+            <li><a href="/about">About</a></li>
           </ul>
-          </section>
+        </section>
         <section className="footer-section">
           <h4>Contact Information</h4>
           <p>Email: myteamwebapp@gmail.com</p>

@@ -1,0 +1,13 @@
+.services-container {
+    padding: 20px;
+  }
+  
+  .services-container h1,
+  .services-container h2 {
+    margin-bottom: 15px;
+  }
+  
+  .services-container p {
+    margin-bottom: 20px;
+  }
+  

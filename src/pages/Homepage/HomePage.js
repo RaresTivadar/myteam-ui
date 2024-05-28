@@ -1,10 +1,13 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom'; 
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
+import './HomePage.css';
 
 const HomePage = () => {
-  const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const navigate = useNavigate(); 
+  const [message, setMessage] = useState('');
+  const navigate = useNavigate();
 
   const formStyle = {
     display: 'flex',
@@ -25,11 +28,37 @@ const HomePage = () => {
     margin: '10px',
     cursor: 'pointer',
     borderRadius: '5px',
+    backgroundColor: '#5e548e',
+    color: 'white',
   };
 
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
-    console.log('Logging in with:', username, password);
+    console.log('Logging in with:', { email, password }); // Debug log
+
+    try {
+      const response = await axios.post('http://localhost:3107/api/users/login', { email, password });
+      console.log('Login response:', response.data); // Debug log
+
+      const user = response.data.user;
+      localStorage.setItem('userId', user._id); // Store user ID in local storage
+      localStorage.setItem('userRole', user.role); // Store user role in local storage
+
+      if (user.role === 'player') {
+        navigate('/player');
+      } else if (user.role === 'coach') {
+        navigate('/coach');
+      } else if (user.role === 'admin') {
+        navigate('/admin');
+      }
+    } catch (error) {
+      console.error('Error logging in:', error); // Debug log
+      if (error.response && error.response.data) {
+        setMessage(error.response.data.error || 'Error logging in');
+      } else {
+        setMessage('Error logging in');
+      }
+    }
   };
 
   const handleSignUp = () => {
@@ -37,16 +66,17 @@ const HomePage = () => {
   };
 
   return (
-    <div>
+    <div style={{ textAlign: 'center', marginTop: '50px' }}>
       <h1>Welcome to MyTeam Web Application</h1>
       <p>The place to manage your sports team easily</p>
       <form style={formStyle} onSubmit={handleLogin}>
         <input
           style={inputStyle}
-          type="text"
-          placeholder="Username"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
+          type="email"
+          placeholder="Email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          required
         />
         <input
           style={inputStyle}
@@ -54,10 +84,12 @@ const HomePage = () => {
           placeholder="Password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
+          required
         />
         <button type="submit" style={buttonStyle}>Log In</button>
       </form>
-      <button onClick={handleSignUp} style={{...buttonStyle, backgroundColor: '#5e548e', color: 'white'}}>Sign Up</button>
+      <button onClick={handleSignUp} style={{ ...buttonStyle, backgroundColor: '#6c757d' }}>Sign Up</button>
+      {message && <p style={{ color: 'red' }}>{message}</p>}
     </div>
   );
 };

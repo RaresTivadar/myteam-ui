@@ -1,0 +1,19 @@
+.about-container {
+    padding: 20px;
+  }
+  
+  .about-container h1,
+  .about-container h2 {
+    margin-bottom: 15px;
+  }
+  
+  .about-container p,
+  .about-container ul {
+    margin-bottom: 20px;
+  }
+  
+  .about-container ul {
+    list-style-type: disc;
+    padding-left: 20px;
+  }
+  

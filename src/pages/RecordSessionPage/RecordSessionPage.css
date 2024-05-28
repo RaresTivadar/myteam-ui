@@ -1,45 +1,76 @@
 .session-page-container {
-    padding: 20px;
-    text-align: center;
-  }
-  
-  .sessions-list {
-    margin: 20px 0;
-    padding: 0;
-  }
-  
-  .session-item {
-    background-color: #f0f0f0;
-    margin-bottom: 10px;
-    padding: 10px;
-    border-radius: 5px;
-    text-align: left; 
-  }
-  
-  .session-form {
-    margin-top: 20px;
-  }
-  
-  .session-form label {
-    display: block;
-    margin-bottom: 10px;
-  }
-  
-  .session-form input[type="number"],
-  .session-form input[type="date"],
-  .session-form select {
-    width: 100%;
-    padding: 8px;
-    margin-top: 5px;
-  }
-  
-  .session-form button {
-    margin-top: 20px;
-    padding: 10px 20px;
-    background-color: #5e548e;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-  }
-  
+  padding: 20px;
+  text-align: center;
+  max-width: 600px;
+  margin: 0 auto;
+  background-color: #ffffff;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+}
+
+.session-page-container h3 {
+  color: #5e548e;
+  margin-bottom: 20px;
+  font-size: 24px;
+}
+
+.sessions-list {
+  margin: 20px 0;
+  padding: 0;
+  list-style: none;
+}
+
+.session-item {
+  background-color: #f9f9f9;
+  margin-bottom: 10px;
+  padding: 15px;
+  border-radius: 8px;
+  text-align: left; 
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.session-item p {
+  margin: 5px 0;
+  color: #333;
+  font-size: 16px;
+}
+
+.session-form {
+  margin-top: 20px;
+  text-align: left;
+}
+
+.session-form label {
+  display: block;
+  margin-bottom: 10px;
+  font-weight: bold;
+  color: #333;
+}
+
+.session-form input[type="number"],
+.session-form input[type="date"],
+.session-form select {
+  width: calc(100% - 16px);
+  padding: 8px;
+  margin-top: 5px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 16px;
+}
+
+.session-form button {
+  margin-top: 20px;
+  padding: 12px 20px;
+  background-color: #5e548e;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s;
+}
+
+.session-form button:hover {
+  background-color: #4b3d72;
+}

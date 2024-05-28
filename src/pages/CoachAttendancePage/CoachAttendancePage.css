@@ -1,36 +1,110 @@
 .attendance-container {
+    max-width: 800px;
+    margin: 0 auto;
     padding: 20px;
+    font-family: Arial, sans-serif;
+  }
+  
+  h1 {
     text-align: center;
-}
-
-.attendance-table {
-    margin: 20px auto;
-    width: 90%;
-    max-width: 800px; 
-}
-
-.table-header, .table-row {
+  }
+  
+  .players-list {
     display: flex;
-    justify-content: space-around; 
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  
+  .player-item {
+    border: 1px solid #ccc;
+    border-radius: 5px;
     padding: 10px;
-    border-bottom: 2px solid #5e548e;
-}
-
-.table-header {
-    background-color: #5e548e;
-    color: white;
-}
-
-.header-item, .row-item {
-    flex: 1;
-    display: flex;
-    justify-content: center; 
-    align-items: center; 
+    margin: 5px;
+    width: 150px;
     text-align: center;
-}
-
-@media (max-width: 600px) {
-    .row-item, .header-item {
-        font-size: 14px;
-    }
-}
+    cursor: pointer;
+    background-color: #f9f9f9;
+    transition: background-color 0.3s;
+  }
+  
+  .player-item:hover {
+    background-color: #e0e0e0;
+  }
+  
+  .player-name {
+    font-weight: bold;
+  }
+  
+  .player-totals {
+    font-size: 0.9em;
+    color: #555;
+  }
+  
+  .selected-player-details {
+    margin-top: 20px;
+  }
+  
+  .event-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+  }
+  
+  .event-details {
+    flex: 1;
+  }
+  
+  .attendance-buttons {
+    display: flex;
+    gap: 10px;
+  }
+  
+  .attendance-buttons button {
+    padding: 5px 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    cursor: pointer;
+    background-color: #f9f9f9;
+    color: black; /* Make the text color black */
+    transition: background-color 0.3s, color 0.3s; /* Add transition for color */
+  }
+  
+  .attendance-buttons button.selected {
+    background-color: #4CAF50;
+    color: white;
+    border-color: #4CAF50;
+  }
+  
+  .attendance-buttons button.clear-button {
+    background-color: #f44336;
+    color: white;
+    border-color: #f44336;
+  }
+  
+  .attendance-buttons button:hover {
+    background-color: #e0e0e0;
+  }
+  
+  .attendance-buttons button.clear-button:hover {
+    background-color: #e57373;
+  }
+  
+  .save-attendance-btn {
+    display: block;
+    margin: 20px auto;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+  }
+  
+  .save-attendance-btn:hover {
+    background-color: #45a049;
+  }
+  

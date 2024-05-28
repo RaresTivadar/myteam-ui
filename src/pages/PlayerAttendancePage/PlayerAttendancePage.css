@@ -1,35 +1,35 @@
 .player-attendance-container {
+    max-width: 800px;
+    margin: 0 auto;
     padding: 20px;
+    font-family: Arial, sans-serif;
+  }
+  
+  h1 {
     text-align: center;
-}
-
-.attendance-info {
-    display: flex;
-    justify-content: center;
-    gap: 20px;
+    margin-bottom: 20px;
+  }
+  
+  .attendance-totals {
+    margin-bottom: 20px;
+  }
+  
+  .attendance-info h2 {
     margin-top: 20px;
-}
-
-.attendance-info > div {
-    background-color: #f9f9f9;
-    border: 2px solid #5e548e;
-    border-radius: 8px;
-    padding: 20px;
-    width: 40%; 
-}
-
-.attendance-info h2 {
-    color: #5e548e;
-}
-
-@media (max-width: 600px) {
-    .attendance-info {
-        flex-direction: column;
-        width: 100%;
-    }
-
-    .attendance-info > div {
-        width: 80%;
-        margin: 0 auto;
-    }
-}
+  }
+  
+  .attendance-detail {
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    margin-bottom: 10px;
+  }
+  
+  .attendance-detail h3 {
+    margin: 0;
+  }
+  
+  .attendance-detail p {
+    margin: 5px 0 0;
+  }
+  
