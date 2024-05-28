@@ -119,7 +119,6 @@ const SignUpPage = () => {
           <option value="" disabled>Select Role</option>
           <option value="player">Player</option>
           <option value="coach">Coach</option>
-          <option value="admin">Admin</option>
         </select>
         {role === 'player' && (
           <input
