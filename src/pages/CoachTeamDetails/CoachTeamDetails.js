@@ -44,8 +44,6 @@ const CoachTeamDetails = () => {
         return <CoachAttendancePage teamId={teamId} />;
       case 'playerstats':
         return <CoachStatisticsPage teamId={teamId} />;
-      case 'messages':
-        return <div>Messages for Team {teamId}...</div>;
       default:
         return <div>Select a section...</div>;
     }
@@ -62,7 +60,6 @@ const CoachTeamDetails = () => {
         <button onClick={() => setActiveSection('results')} className={activeSection === 'results' ? 'active' : ''}>Match Results</button>
         <button onClick={() => setActiveSection('attendance')} className={activeSection === 'attendance' ? 'active' : ''}>Attendance</button>
         <button onClick={() => setActiveSection('playerstats')} className={activeSection === 'playerstats' ? 'active' : ''}>Player Stats</button>
-        <button onClick={() => setActiveSection('messages')} className={activeSection === 'messages' ? 'active' : ''}>Messages</button>
       </nav>
       <div className="section-content">
         {renderSectionContent()}
